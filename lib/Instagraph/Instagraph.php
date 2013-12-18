@@ -150,16 +150,12 @@ class Instagraph
   {
     $command = "convert $this->_tmp -channel R -level 33% -channel G -level 33% $this->_tmp";
     $this->execute($command);
-    $this->vignette();
+   $this->vignette('white','black',1.2);
   }
 
   public function filterKelvin()
   {
-    $this->execute("convert
-        ( $this->_tmp -auto-gamma -modulate 120,50,100 )
-        ( -size {$this->_width}x{$this->_height} -fill rgba(255,153,0,0.5) -draw 'rectangle 0,0 {$this->_width},{$this->_height}' )
-        -compose multiply
-        $this->_tmp");
+   $this->execute("convert $this->_tmp -gamma 1.2 -modulate 120,50,100 -size {$this->_width}x{$this->_height} -fill rgba(255,153,0,0.5) -draw 'rectangle 0,0 {$this->_width},{$this->_height}'  -compose multiply {$this->_tmp}");
     $this->frame('Assets/Frames/Kelvin');
   }
 
